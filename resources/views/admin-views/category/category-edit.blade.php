@@ -2,10 +2,6 @@
 
 @section('title', \App\CPU\translate('Category'))
 
-
-@push('css_or_js')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-@endpush
 @section('content')
     <div class="content container-fluid">
         <!-- Page Title -->
@@ -48,7 +44,7 @@
                                 @endforeach
                             </ul>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="{{ $category['parent_id']==0 ? 'col-lg-6':'col-12' }}">
                                     @foreach(json_decode($language) as $lang)
                                     <div>
                                         <?php
@@ -83,55 +79,31 @@
                                             @endfor
                                         </select>
                                     </div>
-                                    @if($category['parent_id']==0)
-                                        <div class="from_part_2 form-group">
-                                            <label class="title-color">{{\App\CPU\translate('Category Logo')}}</label>
-                                            <span class="text-info">({{\App\CPU\translate('ratio')}} 1:1)</span>
-                                            <div class="custom-file text-left">
-                                                <input type="file" name="image" id="customFileEg1"
-                                                    class="custom-file-input"
-                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
-                                                <label class="custom-file-label"
-                                                    for="customFileEg1">{{\App\CPU\translate('choose')}} {{\App\CPU\translate('file')}}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    <div class="form-group">
-                                        <label class="title-color">Category Slug</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="url">{{url('/')}}/</span>
-                                            </div>
-                                            <input type="text" class="form-control" id="category_slug" name="category_slug" value="{{$category->slug}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                            <label class="title-color">{{ \App\CPU\translate('Meta Title') }}</label>
-                                            <input type="text" name="meta_title" placeholder="{{ \App\CPU\translate('Meta Title') }}" class="form-control" value="{{ $category['meta_title'] }}">
-                                        </div>
-                                        <div class="form-group">
-                                        <label class="title-color">{{ \App\CPU\translate('Meta Description') }}</label>
-                                        <textarea rows="10" type="text" name="meta_description" class="form-control" placeholder="{{ \App\CPU\translate('Meta Description') }}">{{ $category['meta_description'] }}</textarea>
-                                    </div>
-                                </div>
                                 <!--image upload only for main category-->
-                                <div class="col-lg-6 mt-5 mt-lg-0 from_part_2">
-                                    @if($category['parent_id']==0)
-                                     <div class="form-group">
-                                            <center>
-                                                <img class="upload-img-view"
-                                                        id="viewer"
-                                                        src="{{asset('storage/app/public/category')}}/{{$category['icon']}}"
-                                                        alt=""/>
-                                            </center>
+                                @if($category['parent_id']==0)
+                                    <div class="from_part_2">
+                                        <label class="title-color">{{\App\CPU\translate('Category Logo')}}</label>
+                                        <span class="text-info">({{\App\CPU\translate('ratio')}} 1:1)</span>
+                                        <div class="custom-file text-left">
+                                            <input type="file" name="image" id="customFileEg1"
+                                                   class="custom-file-input"
+                                                   accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                            <label class="custom-file-label"
+                                                   for="customFileEg1">{{\App\CPU\translate('choose')}} {{\App\CPU\translate('file')}}</label>
                                         </div>
-                                    @endif
-                                    
-                                    <div class="form-group col-lg-12" style="margin-top:12px;">
-                                        <label class="title-color">Category Description</label>
-                                        <textarea id="description" name="description">{{$category->description}}</textarea>
                                     </div>
                                 </div>
+                                <div class="col-lg-6 mt-5 mt-lg-0 from_part_2">
+                                    <div class="form-group">
+                                        <center>
+                                            <img class="upload-img-view"
+                                                    id="viewer"
+                                                    src="{{asset('storage/app/public/category')}}/{{$category['icon']}}"
+                                                    alt=""/>
+                                        </center>
+                                    </div>
+                                </div>
+                                @endif
                                 @if($category['parent_id']!=0)
                                         <div class="d-flex justify-content-end gap-3">
                                             <button type="reset" id="reset" class="btn btn-secondary px-4">{{ \App\CPU\translate('reset')}}</button>
@@ -156,16 +128,8 @@
 @endsection
 
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-          $('#description').summernote({
-            placeholder: 'Category Description.....',
-            tabsize: 2,
-            height: 220,
-          });
-        })
+
+    <script>
         $(".lang_link").click(function (e) {
             e.preventDefault();
             $(".lang_link").removeClass('active');
