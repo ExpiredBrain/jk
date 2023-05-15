@@ -44,13 +44,10 @@ class SubSubCategoryController extends Controller
 
         $category = new Category;
         $category->name = $request->name[array_search('en', $request->lang)];
-        $category->slug = $request->category_slug;
-        $category->description = $request->description;
+        $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
         $category->parent_id = $request->parent_id;
         $category->position = 2;
         $category->priority = $request->priority;
-        $category->meta_title = $request->meta_title;
-        $category->meta_description = $request->meta_description;
         $category->save();
         foreach($request->lang as $index=>$key)
         {
@@ -86,10 +83,7 @@ class SubSubCategoryController extends Controller
 
         $category = Category::find($request->id);
         $category->name = $request->name;
-        $category->slug = $request->category_slug;
-        $category->description = $request->description;
-        $category->meta_title = $request->meta_title;
-        $category->meta_description = $request->meta_description;
+        $category->slug = Str::slug($request->name);
         $category->parent_id = $request->parent_id;
         $category->position = 2;
         $category->priority = $request->priority;

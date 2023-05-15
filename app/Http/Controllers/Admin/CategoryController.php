@@ -48,13 +48,10 @@ class CategoryController extends Controller
 
         $category = new Category;
         $category->name = $request->name[array_search('en', $request->lang)];
-        $category->slug = $request->category_slug;
-        $category->description = $request->description;
+        $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
         $category->icon = ImageManager::upload('category/', 'png', $request->file('image'));
         $category->parent_id = 0;
         $category->position = 0;
-        $category->meta_title = $request->meta_title;
-        $category->meta_description = $request->meta_description;
         $category->priority = $request->priority;
         $category->save();
 
@@ -93,10 +90,6 @@ class CategoryController extends Controller
             $category->icon = ImageManager::update('category/', $category->icon, 'png', $request->file('image'));
         }
         $category->priority = $request->priority;
-        $category->slug = $request->category_slug;
-        $category->description = $request->description;
-        $category->meta_title = $request->meta_title;
-        $category->meta_description = $request->meta_description;
         $category->save();
 
         foreach ($request->lang as $index => $key) {

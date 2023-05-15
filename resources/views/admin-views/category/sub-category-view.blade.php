@@ -3,7 +3,7 @@
 @section('title', \App\CPU\translate('Sub Category'))
 
 @push('css_or_js')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
 @endpush
 
 @section('content')
@@ -45,7 +45,7 @@
                                             <label class="title-color"
                                                    for="exampleFormControlInput1">{{\App\CPU\translate('sub_category')}} {{\App\CPU\translate('name')}}<span class="text-danger">*</span>
                                                 ({{strtoupper($lang)}})</label>
-                                            <input type="text" name="name[]" class="form-control sub-category-name"
+                                            <input type="text" name="name[]" class="form-control"
                                                    placeholder="{{\App\CPU\translate('New')}} {{\App\CPU\translate('Sub_Category')}}" {{$lang == $default_lang? 'required':''}}>
                                         </div>
                                         <input type="hidden" name="lang[]" value="{{$lang}}">
@@ -81,31 +81,6 @@
                                             @endfor
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2 form-group">
-                                    <label class="title-color">Sub Category Slug</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="url">{{url('/')}}/</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="category_slug" name="category_slug">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="from_part_2 form-group">
-                                        <label class="title-color">{{ \App\CPU\translate('Meta Title') }}</label>
-                                        <input type="text" name="meta_title" placeholder="{{ \App\CPU\translate('Meta Title') }}" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="from_part_2 form-group">
-                                        <label class="title-color">{{ \App\CPU\translate('Meta Description') }}</label>
-                                        <textarea rows="8" type="text" name="meta_description" class="form-control" placeholder="{{ \App\CPU\translate('Meta Description') }}"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2 form-group">
-                                    <label class="title-color">Sub Category Description</label>
-                                    <textarea id="description" name="description"></textarea>
                                 </div>
                             </div>
                             <div class="d-flex flex-wrap gap-2 justify-content-end">
@@ -194,7 +169,7 @@
 
                     @if(count($categories)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Descripti">
+                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Descripti">
                             <p class="mb-0">{{\App\CPU\translate('No_data_to_show')}}</p>
                         </div>
                     @endif
@@ -205,17 +180,6 @@
 @endsection
 
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-          $('#description').summernote({
-            placeholder: 'Category Description.....',
-            tabsize: 2,
-            height: 220,
-          });
-        })
-</script>
     <script>
         $(".lang_link").click(function (e) {
             e.preventDefault();
@@ -269,11 +233,6 @@
                     });
                 }
             })
-        });
-        $(document).on('keyup keypress','.sub-category-name',function(){
-            let string = $(this).val();
-            string = string.replace(/([-,.€~!@#$%^&*()_+=`{}\[\]\|\\:;'<>])+/g, '-');
-            $("#category_slug").val(string);
         });
     </script>
 @endpush

@@ -3,7 +3,7 @@
 @section('title', \App\CPU\translate('Category'))
 
 @push('css_or_js')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
 @endpush
 
 @section('content')
@@ -44,7 +44,7 @@
                                         <div class="form-group {{$lang != $default_lang ? 'd-none':''}} lang_form"
                                             id="{{$lang}}-form">
                                             <label class="title-color">{{\App\CPU\translate('Category_Name')}}<span class="text-danger">*</span> ({{strtoupper($lang)}})</label>
-                                            <input type="text" name="name[]" class="form-control category-name"
+                                            <input type="text" name="name[]" class="form-control"
                                                 placeholder="{{\App\CPU\translate('New')}} {{\App\CPU\translate('Category')}}" {{$lang == $default_lang? 'required':''}}>
                                         </div>
                                         <input type="hidden" name="lang[]" value="{{$lang}}">
@@ -66,7 +66,7 @@
                                             @endfor
                                         </select>
                                     </div>
-                                    <div class="from_part_2 form-group">
+                                    <div class="from_part_2">
                                         <label class="title-color">{{\App\CPU\translate('Category_Logo')}}</label>
                                         <span class="text-info"><span class="text-danger">*</span> ( {{\App\CPU\translate('ratio')}} 1:1 )</span>
                                         <div class="custom-file text-left">
@@ -79,38 +79,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2 form-group">
+                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2">
                                     <div class="form-group">
                                         <center>
                                             <img
                                                 class="upload-img-view"
                                                 id="viewer"
-                                                src="{{asset('assets/back-end/img/900x400/img1.jpg')}}"
+                                                src="{{asset('public/assets/back-end/img/900x400/img1.jpg')}}"
                                                 alt="image"/>
                                         </center>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2 form-group">
-                                    <label class="title-color">Category Slug</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="url">{{url('/')}}/</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="category_slug" name="category_slug">
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="col-lg-6 form-group">
-                                    <label class="title-color">{{ \App\CPU\translate('Meta Title') }}</label>
-                                    <input type="text" name="meta_title" placeholder="{{ \App\CPU\translate('Meta Title') }}" class="form-control">
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label class="title-color">{{ \App\CPU\translate('Meta Description') }}</label>
-                                    <textarea rows="10" type="text" name="meta_description" class="form-control" placeholder="{{ \App\CPU\translate('Meta Description') }}"></textarea>
-                                </div>
-                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2 form-group">
-                                    <label class="title-color">Category Description</label>
-                                    <textarea id="description" name="description"></textarea>
                                 </div>
                             </div>
 
@@ -163,7 +141,7 @@
                                     <th class="text-center">{{ \App\CPU\translate('Category')}} {{ \App\CPU\translate('Image')}}</th>
                                     <th>{{ \App\CPU\translate('name')}}</th>
                                     <th>{{\App\CPU\translate('Priority')}}</th>
-                                    <th class="text-center">{{ \App\CPU\translate('status')}}</th>
+                                    <th class="text-center">{{ \App\CPU\translate('home_category_status')}}</th>
                                     <th class="text-center">{{ \App\CPU\translate('action')}}</th>
                                 </tr>
                             </thead>
@@ -173,7 +151,7 @@
                                     <td >{{$category['id']}}</td>
                                     <td class="text-center">
                                         <img class="rounded" width="64"
-                                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
                                                 src="{{asset('storage/app/public/category')}}/{{$category['icon']}}">
                                     </td>
                                     <td>{{$category['name']}}</td>
@@ -216,7 +194,7 @@
                     </div>
                     @if(count($categories)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                             <p class="mb-0">{{\App\CPU\translate('no_data_found')}}</p>
                         </div>
                     @endif
@@ -227,16 +205,10 @@
 @endsection
 
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script>
     $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-          $('#description').summernote({
-            placeholder: 'Category Description.....',
-            tabsize: 2,
-            height: 220,
-          });
-        })
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
     <script>
         $(".lang_link").click(function (e) {
@@ -338,11 +310,5 @@
         $("#customFileEg1").change(function () {
             readURL(this);
         });
-        $(document).on('keyup keypress','.category-name',function(){
-            let string = $(this).val();
-            string = string.replace(/([-,.€~!@#$%^&*()_+=`{}\[\]\|\\:;'<>])+/g, '-');
-            $("#category_slug").val(string);
-        });
-       
     </script>
 @endpush
